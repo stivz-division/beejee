@@ -1,0 +1,20 @@
+{
+  "name": "stivz-division/beejee",
+  "autoload": {
+    "psr-4": {
+      "Src\\": "src",
+      "App\\": "app"
+    },
+    "files": [
+      "app/support.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Alexand Kashirin"
+    }
+  ],
+  "require": {
+    "illuminate/database": "^10.15"
+  }
+}

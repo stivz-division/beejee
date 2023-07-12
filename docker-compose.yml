@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+
+  #php service
+  app:
+    container_name: app
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+      target: php
+    working_dir: /var/www
+    volumes:
+      -   ./:/var/www
+    ports:
+      -   "80:80"
+    depends_on:
+      -   database
+
+  #Database service
+  database:
+    container_name: database
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=beejee
+      - MYSQL_USER=beejee
+      - MYSQL_PASSWORD=beejee
+      - MYSQL_ROOT_PASSWORD=beejee
+    volumes:
+      -   db-data:/var/lib/mysql
+
+  phpmyadmin:
+    build: ./docker/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - MYSQL_USER=default
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+      - MAX_EXECUTION_TIME=600
+      - MEMORY_LIMIT=256M
+      - UPLOAD_LIMIT=2G
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+volumes:
+  db-data: ~
